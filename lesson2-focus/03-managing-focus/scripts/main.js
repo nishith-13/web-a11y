@@ -1,8 +1,9 @@
-page('/', function() {
-  page.redirect('/what-is-vegemite');
+var isFirstPage = true;
+page('/lesson2-focus/03-managing-focus/index.html', function () {
+  page.redirect('/lesson2-focus/03-managing-focus/index.html/what-is-vegemite');
 });
 
-page('/:slug', function(context) {
+page('/lesson2-focus/03-managing-focus/:slug', function (context) {
   // This will match any value after the first / in the url. For example, if
   // the url was /foo, the value of slug would be "foo".
   var slug = context.params.slug;
@@ -14,11 +15,17 @@ page('/:slug', function(context) {
   oldPage.classList.remove('is-active');
 
   // Add is-active class to new menu item and section using the URL slug
-  var newMenuItem = document.querySelector('#menu [data-page='+slug+']');
-  var newPage = document.querySelector('main [data-page='+slug+']');
+  var newMenuItem = document.querySelector('#menu [data-page=' + slug + ']');
+  var newPage = document.querySelector('main [data-page=' + slug + ']');
   newMenuItem.classList.add('is-active');
   newPage.classList.add('is-active');
 
+  if (isFirstPage) {
+    isFirstPage = false;
+    return;
+  }
+
+  newPage.querySelector('h2').focus();
 });
 
 page({
